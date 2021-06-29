@@ -3,76 +3,109 @@
  * https://reactnavigation.org/docs/bottom-tab-navigator
  */
 
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
 
-import Colors from '../constants/Colors';
-import useColorScheme from '../hooks/useColorScheme';
-import TabOneScreen from '../screens/TabOneScreen';
-import TabTwoScreen from '../screens/TabTwoScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
+import { colors } from '../constants/tokens';
+import TrainingList from '../screens/TrainingList';
+import Training from '../screens/Training';
+import Diet from '../screens/Diet';
+import Profile from '../screens/Profile';
+import UserInfos from '../screens/UserInfos';
+import AboutApp from '../screens/AboutApp';
+import UseTerms from '../screens/UseTerms';
+
+export type BottomTabParamList = {
+  TrainingList: undefined;
+  Diet: undefined;
+  Profile: undefined;
+};
+
+export type StackParamList = {
+  Home: undefined;
+  Training: undefined;
+  UserInfos: undefined;
+  AboutApp: undefined;
+  UseTerms: undefined;
+};
+
+// tabBarOptions={{
+//   activeTintColor: cores.roxo,
+//   inactiveTintColor: cores.claro,
+//   activeBackgroundColor: cores.roxo,
+//   inactiveBackgroundColor: cores.laranja,
+//   style: {
+//     height: 70,
+//   },
+//   labelStyle: {
+//     width: '100%',
+//     flex: 1,
+//     fontWeight: 'bold',
+//     fontSize: 16,
+//     lineHeight: 21,
+//     marginTop: 3,
+//     paddingTop: 21,
+//     backgroundColor: cores.laranja,
+//   },
+// }}
 
 const BottomTab = createBottomTabNavigator<BottomTabParamList>();
 
-export default function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
-
+function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      initialRouteName="TrainingList"
+      tabBarOptions={{
+        showLabel: false,
+        activeTintColor: colors.primary,
+        keyboardHidesTabBar: true,
+      }}
+    >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="TrainingList"
+        component={TrainingList}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <Ionicons name="barbell-outline" size={30} color={color} />,
         }}
       />
+
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="Diet"
+        component={Diet}
         options={{
-          tabBarIcon: ({ color }) => <TabBarIcon name="ios-code" color={color} />,
+          tabBarIcon: ({ color }) => <MaterialCommunityIcons name="food-apple-outline" size={30} color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ color }) => <Ionicons name="person-circle-outline" size={30} color={color} />,
         }}
       />
     </BottomTab.Navigator>
   );
 }
 
-// You can explore the built-in icon families and icons on the web at:
-// https://icons.expo.fyi/
-function TabBarIcon(props: { name: React.ComponentProps<typeof Ionicons>['name']; color: string }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+const Stack = createStackNavigator<StackParamList>();
 
-// Each tab has its own navigation stack, you can read more about this pattern here:
-// https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
-const TabOneStack = createStackNavigator<TabOneParamList>();
-
-function TabOneNavigator() {
+export default function App() {
   return (
-    <TabOneStack.Navigator>
-      <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: 'Tab One Title' }}
-      />
-    </TabOneStack.Navigator>
+    <Stack.Navigator
+      headerMode="none"
+      initialRouteName="Home"
+      screenOptions={{
+        cardStyle: { backgroundColor: '#fff' }
+      }}
+    >
+      <Stack.Screen name="Home" component={BottomTabNavigator} />
+      <Stack.Screen name="Training" component={Training} />
+      <Stack.Screen name="UserInfos" component={UserInfos} />
+      <Stack.Screen name="AboutApp" component={AboutApp} />
+      <Stack.Screen name="UseTerms" component={UseTerms} />
+    </Stack.Navigator>
   );
-}
-
-const TabTwoStack = createStackNavigator<TabTwoParamList>();
-
-function TabTwoNavigator() {
-  return (
-    <TabTwoStack.Navigator>
-      <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: 'Tab Two Title' }}
-      />
-    </TabTwoStack.Navigator>
-  );
-}
+};
