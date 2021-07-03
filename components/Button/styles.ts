@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { colors, font } from '../../constants/tokens';
+import { font } from '../../constants/tokens';
 
 export const styles = StyleSheet.create({
   gradient: {
@@ -11,8 +11,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     marginLeft: 8,
-    fontFamily: font.family.titleMedium,
+    fontFamily: font.family.titleBold,
     fontSize: 16,
-    color: colors.white,
   }
 });

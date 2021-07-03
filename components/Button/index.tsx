@@ -11,16 +11,21 @@ type Props = {
   title: string;
   onPress?: () => void;
   iconName?: any;
+  kind?: 'primary' | 'light'
 }
 
-export const Button = ({ title, onPress, iconName }: Props ) => {
+export const Button = ({ title, onPress, iconName, kind = 'primary'}: Props ) => {
   const { primary, primaryDark, primaryClean, bluePale, white } = colors;
+  const gradientColors = kind === 'primary' ?
+    [primaryDark, primary, primaryClean, bluePale] :
+    [white, 'rgba(255,255,255,0.7)'];
+
 
   return (
     <TouchableOpacity activeOpacity={0.6} onPress={onPress}>
       <LinearGradient 
         style={styles.gradient}
-        colors={[primaryDark, primary, primaryClean, bluePale]}
+        colors={gradientColors}
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
       >
@@ -33,7 +38,10 @@ export const Button = ({ title, onPress, iconName }: Props ) => {
         )} 
       
         {title && (
-          <Text style={styles.title}>
+          <Text style={[
+            styles.title,
+            { color: kind === 'primary' ? white : primary }
+          ]}>
             {title}
           </Text>
         )}
