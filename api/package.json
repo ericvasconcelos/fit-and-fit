@@ -1,0 +1,12 @@
+{
+  "main": "index.js",
+  "scripts": {
+    "backend": "json-server db.json -p 3001 --host 0.0.0.0 -d 2000"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+    "json-server": "^0.16.3"
+  },
+  "private": true
+}
